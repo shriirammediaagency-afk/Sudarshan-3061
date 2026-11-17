@@ -1,106 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Basic -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Master the Market – Beginner's Guide</title>
-  <meta name="description" content="100% free stock market education. Learn chart reading, technical analysis, and risk management. No buy/sell tips. For learning purpose only.">
-  <link rel="canonical" href="https://example.com/">
-
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRADE WITH SUDARSHAN™ | Stock Market Learning Community</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
-
-  <!-- Favicons (optional) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Master the Market – Beginner's Guide">
-  <meta property="og:description" content="Learn charts & risk management. No buy/sell tips. 100% educational.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://example.com/">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop">
-
-  <!-- Minimal CSS (inline for speed) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1:#0c0c1d;
-      --bg2:#1a1a2b;
-      --brand: #00f0ff;
-      --brand-2:#00f0ff;
-      --text:#ffffff;
-      --muted:#b5b5c3;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        linear-gradient(135deg, rgba(0,0,0,.45), rgba(0,0,0,.45)),
-        url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop') no-repeat center/cover fixed;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      min-height:100vh;
+
+    body {
+      min-height: 100vh;
+      background-color: #07090e;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
     }
-    .container{
-      max-width:520px; margin:0 auto; padding:24px 18px; text-align:center; min-height:100vh; display:flex; flex-direction:column; justify-content:center;
-      backdrop-filter: saturate(130%);
+
+    /* Animated Candlestick Background Canvas */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.55;
+      filter: blur(1.2px);
     }
-    .badge{display:inline-block; font-size:.78rem; padding:6px 10px; border:1px solid #2a2a3a; border-radius:999px; color:#d6eaff; background:rgba(0,240,255,.08); margin-bottom:14px}
-    h1{font-size:1.9rem; line-height:1.2; margin:6px 0 10px; background:linear-gradient(90deg,var(--brand-2),var(--brand)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-    .sub{font-size:1rem; color:var(--muted); margin:0 auto 16px; max-width:36ch}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:rgba(0,255,153,.07); border:1px dashed rgba(0,255,153,.35); color:#d8ffe9; font-size:.9rem; margin:6px 0 18px;
+
+    /* Subtle dark vignette overlay */
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(7, 9, 14, 0.35) 0%, rgba(5, 7, 11, 0.85) 100%);
+      z-index: 1;
+      pointer-events: none;
     }
-    ul.bullets{list-style:none; padding:0; margin:0 0 18px}
-    ul.bullets li{margin:8px 0; color:#e9eef9}
-    .cta{
-      display:inline-block; text-decoration:none; background:var(--brand); color:#041b14; padding:14px 18px; font-weight:700; border-radius:12px; box-shadow:0 0 0 0 rgba(0,255,153,.6); transform:translateZ(0);
-      transition:transform .15s ease;
-      animation:pulse 1.6s infinite;
+
+    /* Main Card Container */
+    .card-container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 410px;
+      min-height: 100vh;
+      background: rgba(10, 12, 16, 0.86);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 36px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
     }
-    .cta:active{transform:scale(.98)}
-    @keyframes pulse{
-      0%{box-shadow:0 0 0 0 rgba(0,255,153,.55)}
-      70%{box-shadow:0 0 0 20px rgba(0,255,153,0)}
-      100%{box-shadow:0 0 0 0 rgba(0,255,153,0)}
+
+    @media (min-height: 680px) {
+      .card-container {
+        min-height: auto;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        margin: 16px;
+      }
     }
-    .fineprint{font-size:.86rem; color:var(--muted); margin:18px auto 0; max-width:44ch}
-    .disclaimer{font-size:.78rem; color:#9aa4b2; margin:18px auto 0; max-width:50ch}
-    .safe{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px; color:#a1ffd6; font-size:.9rem}
-    .shield{width:18px; height:18px; display:inline-block; border-radius:4px; background:linear-gradient(135deg,#0df,#0f9)}
-    footer{opacity:.8; margin-top:22px; font-size:.78rem; color:#9aa4b2}
+
+    /* Circular Profile Image with Golden Glow */
+    .avatar-wrapper {
+      position: relative;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #ffe680, #f5b027, #ffd24c);
+      box-shadow: 0 0 28px rgba(255, 204, 51, 0.55), 0 0 55px rgba(255, 193, 7, 0.25);
+      margin-bottom: 22px;
+      animation: pulseGlow 3s infinite ease-in-out;
+      display: block;
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      background: #141820;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 24px rgba(255, 204, 51, 0.5), 0 0 48px rgba(255, 193, 7, 0.22);
+      }
+      50% {
+        box-shadow: 0 0 34px rgba(255, 215, 70, 0.75), 0 0 65px rgba(255, 193, 7, 0.35);
+      }
+    }
+
+    /* Brand Heading */
+    .brand-title {
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: 0.4px;
+      color: #ffd54f;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(255, 213, 79, 0.42);
+      margin-bottom: 12px;
+    }
+
+    /* Subtitle */
+    .subtitle {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-bottom: 24px;
+    }
+
+    .subtitle .icon-chart {
+      font-size: 15px;
+    }
+
+    /* Primary Telegram CTA Button */
+    .cta-btn {
+      width: 100%;
+      max-width: 320px;
+      background: linear-gradient(180deg, #1ea1f2 0%, #0d84d8 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16.5px;
+      font-weight: 700;
+      padding: 15px 22px;
+      border-radius: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      box-shadow: 0 6px 24px rgba(29, 155, 240, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(29, 155, 240, 0.65);
+    }
+
+    .cta-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Trusted Badge Pill */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 204, 77, 0.45);
+      background: rgba(255, 193, 7, 0.06);
+      color: #ffe082;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 0 16px rgba(255, 193, 7, 0.12);
+      margin-bottom: 24px;
+      text-decoration: none;
+    }
+
+    /* Feature List */
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 28px;
+    }
+
+    .features-list li {
+      font-size: 14px;
+      font-weight: 500;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .features-list li a {
+      color: #f1f5f9;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Footer Disclaimer */
+    .disclaimer {
+      font-size: 11px;
+      font-style: italic;
+      color: #94a3b8;
+      letter-spacing: 0.2px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
-  <main class="container">
-    <span class="badge">100% Educational • Policy Safe</span>
-    <h1>Master the Market – Beginner's Guide</h1>
-    <p class="sub">Master the basics with beginner-friendly lessons</p>
 
-    <div class="pill">🚫 No Buy/Sell Tips • ✅ For Learning Purpose Only</div>
+  <!-- Background Trading Chart Canvas -->
+  <canvas id="bgCanvas"></canvas>
+  <div class="bg-overlay"></div>
 
-    <ul class="bullets" aria-label="What you'll learn">
-      <li>• Chart basics & risk rules (no return promises)</li>
-      <li>• How to read trends without speculation</li>
-      <li>• Market discipline & common mistakes</li>
+  <!-- Main Centered Landing Card -->
+  <main class="card-container">
+    
+    <!-- Profile Avatar (Paste your image URL inside IMAGE_URL_HERE below) -->
+    <a href="https://t.me/+u-lZEW5D1Ck5ZGJl" target="_blank" rel="noopener noreferrer" class="avatar-wrapper">
+      <img 
+        src="IMAGE_URL_HERE" 
+        onerror="this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=400&q=80'" 
+        alt="Trade With Sudarshan" 
+        id="profileImg" 
+      />
+    </a>
+
+    <!-- Title -->
+    <h1 class="brand-title">TRADE WITH<br>SUDARSHAN™</h1>
+
+    <!-- Subtitle -->
+    <p class="subtitle">
+      <span class="icon-chart">📊</span>
+      <span>Stock Market Learning Community</span>
+    </p>
+
+    <!-- Telegram Button -->
+    <a href="https://t.me/+u-lZEW5D1Ck5ZGJl" target="_blank" rel="noopener noreferrer" class="cta-btn">
+      <span>🚀</span>
+      <span>Join Our Telegram Group</span>
+    </a>
+
+    <!-- Highlight Pill -->
+    <a href="https://t.me/+u-lZEW5D1Ck5ZGJl" target="_blank" rel="noopener noreferrer" class="badge-pill">
+      <span>🔥</span>
+      <span>India's Trusted Learning Group</span>
+    </a>
+
+    <!-- Bullet Features -->
+    <ul class="features-list">
+      <li>
+        <span>🎯</span>
+        <span>Live Educational Sessions</span>
+      </li>
+      <li>
+        <span>📘</span>
+        <span>Learn Stocks • Indices • Concepts</span>
+      </li>
+      <li>
+        <a href="https://t.me/+u-lZEW5D1Ck5ZGJl" target="_blank" rel="noopener noreferrer">
+          <span>🚀</span>
+          <span>Join Free Community Today</span>
+        </a>
+      </li>
     </ul>
 
-    <!-- CTA goes to a page-specific bridge -->
-    <a class="cta" href="bridge-lp77.html" rel="nofollow">Start Learning</a>
+    <!-- Disclaimer -->
+    <p class="disclaimer">Educational purpose only. No investment advice.</p>
 
-    <div class="safe"><span class="shield" aria-hidden="true"></span> Ad Policy Friendly Content</div>
-
-    <p class="fineprint">We focus on concepts & frameworks suitable for beginners.</p>
-    <p class="disclaimer"><em>This website is for educational purposes only. We do not provide investment, trading, or financial advice.</em></p>
-
-    <footer>© <span id="y"></span> Market Basics Learning Hub</footer>
   </main>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Realistic Trading Candlestick + Trendline Background Animation
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let candles = [];
+    const candleWidth = 14;
+    const candleGap = 10;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      generateCandles();
+    }
+
+    function generateCandles() {
+      candles = [];
+      const count = Math.ceil(width / (candleWidth + candleGap)) + 4;
+      let price = height * 0.45;
+
+      for (let i = 0; i < count; i++) {
+        const change = (Math.random() - 0.48) * (height * 0.14);
+        const open = price;
+        let close = open + change;
+
+        if (close < height * 0.15) close = height * 0.22;
+        if (close > height * 0.82) close = height * 0.72;
+
+        const high = Math.min(open, close) - Math.random() * 28;
+        const low = Math.max(open, close) + Math.random() * 28;
+
+        candles.push({ open, close, high, low });
+        price = close;
+      }
+    }
+
+    let offset = 0;
+    function drawChart() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Subtle Grid Lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1;
+      const gridSize = 65;
+      for (let x = 0; x < width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      const step = candleWidth + candleGap;
+      offset -= 0.35;
+      if (Math.abs(offset) >= step) {
+        offset = 0;
+        candles.shift();
+        const last = candles[candles.length - 1];
+        const open = last.close;
+        let close = open + (Math.random() - 0.49) * (height * 0.14);
+        if (close < height * 0.15) close = height * 0.25;
+        if (close > height * 0.82) close = height * 0.70;
+        const high = Math.min(open, close) - Math.random() * 25;
+        const low = Math.max(open, close) + Math.random() * 25;
+        candles.push({ open, close, high, low });
+      }
+
+      // Draw Candlesticks
+      candles.forEach((c, i) => {
+        const x = i * step + offset;
+        const isGreen = c.close < c.open;
+        const color = isGreen ? '#10b981' : '#ef4444';
+
+        // Wick
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x + candleWidth / 2, c.high);
+        ctx.lineTo(x + candleWidth / 2, c.low);
+        ctx.stroke();
+
+        // Body
+        ctx.fillStyle = color;
+        const bodyTop = Math.min(c.open, c.close);
+        const bodyHeight = Math.max(Math.abs(c.close - c.open), 6);
+        ctx.fillRect(x, bodyTop, candleWidth, bodyHeight);
+      });
+
+      // Draw White Trendline connecting closes
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      candles.forEach((c, i) => {
+        const x = i * step + offset + candleWidth / 2;
+        const y = c.close;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      requestAnimationFrame(drawChart);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawChart();
   </script>
 </body>
 </html>
